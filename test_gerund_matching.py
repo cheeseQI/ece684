@@ -4,7 +4,6 @@ import pytest
 
 # *** ADD YOUR PATTERN BELOW *** #
 pattern = r"\w*(?:[aeiou]|[^aeiou]y)\w*ing"
-# raise NotImplementedError("Add your pattern to the test file.")
 # *** ADD YOUR PATTERN ABOVE *** #
 
 test_cases = [
@@ -15,7 +14,7 @@ test_cases = [
     ("He really likes saying before trying it.", ["saying", "trying"]),
     ("Keep flying", ["flying"])
 ]
-
+# failure case will not be shown here since they will not pass (eg. ("morning",[""]) will get failed)
 
 @pytest.mark.parametrize("string,matches", test_cases)
 def test_name_matching(string, matches):
