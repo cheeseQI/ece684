@@ -3,7 +3,6 @@ import re
 import pytest
 
 # *** ADD YOUR PATTERN BELOW *** #
-# pattern = r"\b[a-z]*(?:[b-df-hj-np-tv-xz][aieouy][a-z]*)+ing\b"
 pattern = r"\w*(?:[aeiou]|[^aeiou]y)\w*ing"
 # raise NotImplementedError("Add your pattern to the test file.")
 # *** ADD YOUR PATTERN ABOVE *** #
