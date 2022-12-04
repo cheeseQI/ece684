@@ -1,0 +1,8 @@
+{"text": "what the hell is going on", "label": "neg"}
+{"text": "seems really good for me", "label": "pos"}
+{"text": "bad movie", "label": "neg"}
+{"text": "hello? what am i looking at?", "label": "neg"}
+{"text": "that is not what i want", "label": "neg"}
+{"text": "fantastic movie", "label": "pos"}
+{"text": "hold on, i have to say this is the worst one I have ever seen", "label": "neg"}
+{"text": "i really like this moview", "label": "pos"}
