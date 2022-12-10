@@ -1,3 +1,5 @@
+import time
+
 from sklearn.metrics import accuracy_score, plot_confusion_matrix
 import prob_model
 import format_worker
@@ -8,6 +10,8 @@ import numpy as np
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
 import pandas as pd
 import matplotlib.pyplot as plt
+
+from hw_pos.proj.TransformerLab import epoch_time
 
 
 def get_top_2000_words(count_data, count_vect, label_data):
@@ -36,25 +40,29 @@ def remove_intersection(pos_words, neg_words):
 
 
 def train_by_NB(x_train_count, y_train, x_test_count, y_test):
+    start_time = round(time.time() * 1000)
     mnb = MultinomialNB()
     mnb.fit(x_train_count, y_train)
     p2 = mnb.predict(x_test_count)
     s2 = accuracy_score(y_test, p2)
     print("Multinomial Naive Bayes Classifier Accuracy :", "{:.2f}%".format(100 * s2))
+    end_time = round(time.time() * 1000)
+    print(f'Epoch Time: {end_time - start_time}ms')
     # plot_confusion_matrix(mnb, x_test_count, y_test, cmap='Blues')
     # plt.grid(False)
     # plt.show()
 
+def readFromFile(is_real=True):
+    test = pd.read_csv(format_worker.csv_test_filename)
+    if is_real:
+        return pd.read_csv(format_worker.csv_train_filename), test
+    else:
+        return pd.read_csv(format_worker.csv_synthetic_filename), test
 
 def main():
-    train = pd.read_csv(format_worker.csv_train_filename)
-    test = pd.read_csv(format_worker.csv_test_filename)
+    train, test = readFromFile(True)
     x_train, y_train = train['text'], train['label']
     x_test, y_test = test['text'], test['label']
-
-    # tfidf_vect = TfidfVectorizer()  # tfidfVectorizer
-    # Xtrain_tfidf = tfidf_vect.fit_transform(x_train)
-    # Xtest_tfidf = tfidf_vect.transform(x_test)
 
     stop_sign = ['very', 'ourselves', 'am', 'through', 'me',
                  'just', 'her', 'ours', 'because', 'is', 'it', 'only',
@@ -77,17 +85,22 @@ def main():
                                  stop_words=stop_sign)  # using uni-gram and bi-gram
     x_train_count = count_vect.fit_transform(x_train)
     x_test_count = count_vect.transform(x_test)
-    pos_words, neg_words = get_top_2000_words(x_train_count, count_vect, y_train)
-    pos_words, neg_words = remove_intersection(pos_words, neg_words)
-    print(pos_words)
-    print(neg_words)
-    f_pos = pd.DataFrame(pos_words)
-    # save data of distribution
-    f_pos.to_csv(format_worker.csv_pos_word_filename, header=False, index=False)
-    f_neg = pd.DataFrame(neg_words)
-    f_neg.to_csv(format_worker.csv_neg_word_filename, header=False, index=False)
-    # train_by_NB(x_train_count, y_train, x_test_count, y_test)
+    # pos_words, neg_words = get_top_2000_words(x_train_count, count_vect, y_train)
+    # pos_words, neg_words = remove_intersection(pos_words, neg_words)
+    # f_pos = pd.DataFrame(pos_words)
+    # # save data of distribution
+    # f_pos.to_csv(format_worker.csv_pos_word_filename, header=False, index=False)
+    # f_neg = pd.DataFrame(neg_words)
+    # f_neg.to_csv(format_worker.csv_neg_word_filename, header=False, index=False)
+    train_by_NB(x_train_count, y_train, x_test_count, y_test)
 
+    # use synthetic data from generated sentence
+    train, test = readFromFile(False)
+    x_train, y_train = train['text'], train['label']
+    x_test, y_test = test['text'], test['label']
+    x_train_count = count_vect.fit_transform(x_train)
+    x_test_count = count_vect.transform(x_test)
+    train_by_NB(x_train_count, y_train, x_test_count, y_test)
 
 if __name__ == "__main__":
     main()

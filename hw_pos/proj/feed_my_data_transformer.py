@@ -54,6 +54,7 @@ def main():
                       pad_token=pad_token_idx,
                       unk_token=unk_token_idx)
     fields = [('text', TEXT), ('label', LABEL)]
+    # abandon tmp, no need for
     synthetic_train_data, tmp = data.TabularDataset.splits(
         path='.',
         train=format_worker.csv_synthetic_filename,
