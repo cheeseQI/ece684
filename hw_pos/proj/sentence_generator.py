@@ -1,4 +1,3 @@
-import format_worker
 import pandas as pd
 import random
 import numpy as np

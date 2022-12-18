@@ -1,7 +1,6 @@
 # Python program to demonstrate
 # writing to CSV
 import csv
-import pandas as pd
 import os
 path_of_the_directory = '.data/imdb/aclImdb'
 fields = ['text', 'label']
@@ -13,7 +12,7 @@ csv_test_filename = 'mydata/review_test.csv'
 csv_pos_word_filename = 'mydata/pos_vocab.csv'
 csv_neg_word_filename = 'mydata/neg_vocab.csv'
 csv_synthetic_filename = 'mydata/review_synthetic.csv'
-csv_synthetic_2_filename = 'mydata/doc.csv'
+csv_synthetic_2_filename = 'mydata/review_synthetic_from_designed.csv'
 
 train_rows = [[]]
 test_rows = [[]]

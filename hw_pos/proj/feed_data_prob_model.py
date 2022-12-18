@@ -1,17 +1,13 @@
 import time
 
-from sklearn.metrics import accuracy_score, plot_confusion_matrix
-import prob_model
+from sklearn.metrics import accuracy_score
 import format_worker
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 # from torchtext.legacy import data
 # from torchtext.legacy import datasets
 import numpy as np
-from sklearn.naive_bayes import GaussianNB, MultinomialNB
+from sklearn.naive_bayes import MultinomialNB
 import pandas as pd
-import matplotlib.pyplot as plt
-
-from hw_pos.proj.TransformerLab import epoch_time
 
 
 def get_top_2000_words(count_data, count_vect, label_data):
@@ -85,13 +81,13 @@ def main():
                                  stop_words=stop_sign)  # using uni-gram and bi-gram
     x_train_count = count_vect.fit_transform(x_train)
     x_test_count = count_vect.transform(x_test)
-    # pos_words, neg_words = get_top_2000_words(x_train_count, count_vect, y_train)
-    # pos_words, neg_words = remove_intersection(pos_words, neg_words)
-    # f_pos = pd.DataFrame(pos_words)
-    # # save data of distribution
-    # f_pos.to_csv(format_worker.csv_pos_word_filename, header=False, index=False)
-    # f_neg = pd.DataFrame(neg_words)
-    # f_neg.to_csv(format_worker.csv_neg_word_filename, header=False, index=False)
+    pos_words, neg_words = get_top_2000_words(x_train_count, count_vect, y_train)
+    pos_words, neg_words = remove_intersection(pos_words, neg_words)
+    f_pos = pd.DataFrame(pos_words)
+    # save data of distribution
+    f_pos.to_csv(format_worker.csv_pos_word_filename, header=False, index=False)
+    f_neg = pd.DataFrame(neg_words)
+    f_neg.to_csv(format_worker.csv_neg_word_filename, header=False, index=False)
     train_by_NB(x_train_count, y_train, x_test_count, y_test)
 
     # use synthetic data from generated sentence

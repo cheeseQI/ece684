@@ -1,12 +1,4 @@
-import torch
-import random
-import numpy as np
-from transformers import BertTokenizer, BertModel
-from torchtext.legacy import data
-from torchtext.legacy import datasets
-import torch.nn as nn
-import torch.optim as optim
-import time
+from transformers import BertTokenizer
 
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 

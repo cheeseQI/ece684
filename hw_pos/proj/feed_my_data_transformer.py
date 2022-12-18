@@ -1,7 +1,5 @@
 import torch
-import random
-import numpy as np
-from transformers import BertTokenizer, BertModel
+from transformers import BertTokenizer
 import TransformerLab
 from torchtext.legacy import data
 from torchtext.legacy import datasets
@@ -57,15 +55,13 @@ def main():
     # abandon tmp, no need for
     synthetic_train_data, tmp = data.TabularDataset.splits(
         path='.',
-        train=format_worker.csv_synthetic_filename,
+        train=format_worker.csv_synthetic_2_filename,
         test='test2.csv',
         format='csv',
         fields=fields,
         skip_header=True
     )
 
-    # create the iterators. Ideally use the largest batch size as this gives the best results for transformers
-    # then go to transformer, create the iterators and model
     TransformerLab.transformer(synthetic_train_data, real_test_data, LABEL, 'synthetic')
 
 if __name__ == "__main__":
